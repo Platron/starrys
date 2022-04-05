@@ -3,6 +3,9 @@
 namespace Platron\Starrys\services;
 
 use Platron\Starrys\data_objects\Line;
+use Platron\Starrys\data_objects\IndustryProps;
+use Platron\Starrys\data_objects\CustomerData;
+use Platron\Starrys\data_objects\OperationalRequisite;
 use Platron\Starrys\handbooks\DocumentTypes;
 use Platron\Starrys\handbooks\TaxModes;
 
@@ -46,11 +49,23 @@ class ComplexRequest extends BaseServiceRequest
 	/** @var Line[] */
 	private $lines;
 	/** @var string */
+	protected $MarkingCode;
+	/** @var string */
 	protected $CustomerName;
 	/** @var int */
 	protected $CustomerINN;
 	/** @var int */
 	protected $TaxCalculationMethod;
+	/** @var IndustryProps */
+	protected $IndustryProps;
+	/** @var CustomerData */
+	protected $CustomerData;
+	/** @var OperationalRequisite */
+	protected $OperationalRequisite;
+	/** @var string */
+	protected $AdditionalRequisite;
+	/** @var int */
+	protected $Unit;
 
 	/**
 	 * @inheritdoc
@@ -179,6 +194,46 @@ class ComplexRequest extends BaseServiceRequest
 	}
 
 	/**
+	 * @param IndustryProps $industryProps
+	 */
+	public function addIndustryProps($industryProps)
+	{
+		$this->IndustryProps = $industryProps;
+	}
+
+	/**
+	 * @param CustomerData $customerData
+	 */
+	public function addCustomerData($customerData)
+	{
+		$this->CustomerData = $customerData;
+	}
+
+	/**
+	 * @param OperationalRequisite $operationalRequisite
+	 */
+	public function addOperationalRequisite($operationalRequisite)
+	{
+		$this->OperationalRequisite = $operationalRequisite;
+	}
+
+	/**
+	 * @param string $additionalRequisite
+	 */
+	public function addAdditionalRequisite($additionalRequisite)
+	{
+		$this->AdditionalRequisite = $additionalRequisite;
+	}
+
+	/**
+	 * @param int $unit
+	 */
+	public function addUnit($unit)
+	{
+		$this->Unit = (int)$unit;
+	}
+
+	/**
 	 * Установить пароль. Не обязательно. Подробнее смотри в полной версии документации
 	 * @param int $password
 	 */
@@ -188,7 +243,7 @@ class ComplexRequest extends BaseServiceRequest
 	}
 
 	/**
-	 * @param $clientId
+	 * @param string $clientId
 	 */
 	public function addClientId($clientId)
 	{
@@ -237,7 +292,7 @@ class ComplexRequest extends BaseServiceRequest
 		$params = parent::getParameters();
 		$params['PhoneOrEmail'] = $this->email ? $this->email : $this->phone;
 		$params['FullResponse'] = true;
-		foreach($this->lines as $line){
+		foreach ($this->lines as $line) {
 			$params['Lines'][] = $line->getParameters();
 		}
 		return $params;

@@ -7,12 +7,15 @@ use Platron\Starrys\handbooks\LineAttributeTypes;
 use Platron\Starrys\handbooks\PayAttributeTypes;
 use Platron\Starrys\handbooks\Taxes;
 
-class Line extends BaseDataObject{
+class Line extends BaseDataObject
+{
 
-    /** @var int */
-    protected $Qty;
-    /** @var float */
-    protected $Price;
+	/** @var int */
+	protected $Qty;
+	/** @var float */
+	protected $QtyDecimal;
+	/** @var float */
+	protected $Price;
 	/** @var int */
 	protected $PayAttribute;
 	/** @var int */
@@ -35,25 +38,32 @@ class Line extends BaseDataObject{
 	protected $ProviderData;
 	/** @var string */
 	protected $CGNFloat;
-    
-    /**
+	/** @var string $MarkingCode */
+	protected $MarkingCode;
+	/** @var int $Unit */
+	protected $Unit;
+
+	/**
 	 * @param string $description Наименование товарной позиции
-     * @param float $qty Количество. Указывается в штуках. До 3 знаков после запятой
+	 * @param float $qty Количество. Указывается в штуках. До 3 знаков после запятой
 	 * @param int $price Цена указывается в копейках
 	 * @param Taxes $taxId Процент налога на позицию
-     */
-    public function __construct($description, $qty, $price, Taxes $taxId) {
-        $this->Qty = (int)($qty * 1000);
-        $this->Price = (int)$price;
-        $this->TaxId = $taxId->getValue();
+	 * @param float $qtyDecimal
+	 */
+	public function __construct($description, $qty, $price, Taxes $taxId)
+	{
+		$this->Qty = (int)($qty * 1000);
+		$this->Price = (int)$price;
+		$this->TaxId = $taxId->getValue();
 		$this->Description = $description;
-    }
-	
+	}
+
 	/**
 	 * Признак способа расчета. Задается из констант. Не обязателен при БСО
 	 * @param PayAttributeTypes $payAttributeType
 	 */
-	public function addPayAttribute(PayAttributeTypes $payAttributeType){
+	public function addPayAttribute(PayAttributeTypes $payAttributeType)
+	{
 		$this->PayAttribute = $payAttributeType->getValue();
 	}
 
@@ -122,4 +132,27 @@ class Line extends BaseDataObject{
 		$this->CGNFloat = $nomenclatureCode;
 	}
 
+	/**
+	 * @param string $markingCode
+	 */
+	public function addMarkingCode($markingCode)
+	{
+		$this->MarkingCode = (string)$markingCode;
+	}
+
+	/**
+	 * @param int $unit
+	 */
+	public function addUnit($unit)
+	{
+		$this->Unit = (int)$unit;
+	}
+
+	/**
+	 * @param float $qtyDecimal
+	 */
+	public function addQtyDecimal($qtyDecimal)
+	{
+		$this->QtyDecimal = (float)$qtyDecimal;
+	}
 }
