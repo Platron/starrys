@@ -2,22 +2,22 @@
 
 namespace Platron\Starrys\tests\integration;
 
-class IntegrationTestBase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class IntegrationTestBase extends TestCase
 {
 
 	/** @var int */
 	protected $taxMode;
-	/** @var sting Адрес для запросов */
+	/** @var string Адрес для запросов */
 	protected $starrysApiUrl;
 	/** @var string Путь до приватного ключа */
 	protected $secretKeyPath;
 	/** @var string Путь до сертифката */
 	protected $certPath;
 
-	public function __construct()
+	public function setUp(): void
 	{
-		parent::__construct();
-
 		$this->taxMode = MerchantSettings::TAX_MODE;
 		$this->starrysApiUrl = MerchantSettings::API_STARRYS_URL;
 		$this->secretKeyPath = 'tests/integration/merchant_data/' . MerchantSettings::SECRET_KEY_NAME;
