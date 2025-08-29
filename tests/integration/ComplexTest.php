@@ -71,6 +71,7 @@ class ComplexTest extends IntegrationTestBase
 		$complexRequest->addTaxMode(new TaxModes($this->taxMode));
 		$complexRequest->addLine($line);
 		$complexRequest->addNonCash(10.00);
+		$complexRequest->addInternet(1);
 		return $complexRequest;
 	}
 }

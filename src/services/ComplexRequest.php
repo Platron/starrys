@@ -51,6 +51,8 @@ class ComplexRequest extends BaseServiceRequest
 	protected $CustomerINN;
 	/** @var int */
 	protected $TaxCalculationMethod;
+	/** @var int */
+	protected $Internet;
 
 	/**
 	 * @inheritdoc
@@ -229,6 +231,11 @@ class ComplexRequest extends BaseServiceRequest
 		$this->TaxCalculationMethod = $taxCalculationMethod;
 	}
 
+	public function addInternet(int $internet)
+	{
+		$this->Internet = $internet;
+	}
+
 	/**
 	 * @return array
 	 */
@@ -237,6 +244,7 @@ class ComplexRequest extends BaseServiceRequest
 		$params = parent::getParameters();
 		$params['PhoneOrEmail'] = $this->email ? $this->email : $this->phone;
 		$params['FullResponse'] = true;
+		$params['Internet'] = $this->Internet;
 		foreach($this->lines as $line){
 			$params['Lines'][] = $line->getParameters();
 		}
